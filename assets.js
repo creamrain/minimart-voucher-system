@@ -1,4 +1,5 @@
 import { StyleSheet, StatusBar, SafeAreaView, SectionList, View, Text, Button, TextInput, Modal, TouchableOpacity, Dimensions, Switch, Alert, Image, Pressable, ScrollView, ImageBackground, useColorScheme } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const styles = StyleSheet.create({
