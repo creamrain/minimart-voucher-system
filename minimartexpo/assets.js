@@ -222,75 +222,119 @@ const SettingsPage = () => {
 const { width } = Dimensions.get('window');
 
 const styles = {
-  container: { flex: 1, padding: 16 },
-  welcomeText: { fontSize: 24, marginBottom: 16 },
-  shoppingTitle: { fontSize: 18, marginVertical: 16 },
-  productList: { flexDirection: 'row', flexWrap: 'wrap' },
-  productCard: { width: 200, padding: 10, margin: 10, backgroundColor: '#f5f5f5' },
-  productImage: { width: 160, height: 100 },
-  productName: { fontSize: 16, marginTop: 8 },
-  productPrice: { fontSize: 14, color: '#888' },
-  modal: { padding: 20, backgroundColor: 'white', marginTop: 20 },
-  modalTitle: { fontSize: 18, marginBottom: 10 },
-  input: { height: 40, borderColor: '#ccc', borderWidth: 1, marginBottom: 10, paddingHorizontal: 8 },
-  productTitle: { fontSize: 24, marginBottom: 16 },
-  settingsText: { fontSize: 20, marginTop: 20 },
-  detailsContainer: { padding: 10, alignItems: 'center' },
-  productTitle: { fontSize: 24, marginBottom: 16 },  
-  productImage2: { width: width*0.7, height: 300, marginBottom: 16 },
-  productPrice: { fontSize: 18, marginBottom: 16 },
-  picker: { 
-    height: 40,
-    width: '100%',
-    marginVertical: 10,
-    alignSelf: 'center',
-    color: 'grey',
-    alignItems: 'center',
-    borderColor: 'grey',
-    borderWidth: 1, 
-    borderRadius: 5,
-    alignSelf: 'center',
-  },
-  pickerContainer: {
-    width: '100%',
-    alignSelf: 'center',
-    marginVertical: 10,
-  },
-  pickerItem: {
-    fontSize: 12, 
-  },
-  usernameContainer: {
-    padding: 10,
-  },
-  pickerContainer: {
-    width: '95%',
-    alignSelf: 'center',
-    marginVertical: 10,
-  },
-  buttonText: {
-     textAlign: 'center',
-   },
-   profileImageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    top: 7,
-    postiion: 'absolute',
-  },
-  imagebutton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
-  //  backgroundColor: theme.color,
-  },
-
-};
+    container: { 
+      flex: 1, 
+      padding: 16 
+    },
+    welcomeText: { 
+      fontSize: 24, 
+      marginBottom: 16 
+    },
+    shoppingTitle: { 
+      fontSize: 18, 
+      marginVertical: 16 
+    },
+    productList: { 
+      flexDirection: 'row', 
+      flexWrap: 'wrap' 
+    },
+    productCard: { 
+      width: 200, 
+      padding: 10, 
+      margin: 10, 
+      backgroundColor: '#f5f5f5' 
+    },
+    productImage: { 
+      width: 160, 
+      height: 100 
+    },
+    productName: { 
+      fontSize: 16, 
+      marginTop: 8 
+    },
+    productPrice: { 
+      fontSize: 14, 
+      color: '#888' 
+    },
+    modal: { 
+      padding: 20, 
+      backgroundColor: 'white', 
+      marginTop: 20 
+    },
+    modalTitle: { 
+      fontSize: 18, 
+      marginBottom: 10 
+    },
+    input: { 
+      height: 40, 
+      borderColor: '#ccc', 
+      borderWidth: 1, 
+      marginBottom: 10, 
+      paddingHorizontal: 8 
+    },
+    productTitle: { 
+      fontSize: 24, 
+      marginBottom: 16 
+    },
+    settingsText: { 
+      fontSize: 20, 
+      marginTop: 20 
+    },
+    detailsContainer: { 
+      padding: 10, 
+      alignItems: 'center' 
+    },
+    productImage2: { 
+      width: width * 0.7, 
+      height: 300, 
+      marginBottom: 16 
+    },
+    picker: { 
+      height: 40,
+      width: '100%',
+      marginVertical: 10,
+      alignSelf: 'center',
+      color: 'grey',
+      alignItems: 'center',
+      borderColor: 'grey',
+      borderWidth: 1,
+      borderRadius: 5
+    },
+    pickerContainer: { 
+      width: '100%', 
+      alignSelf: 'center', 
+      marginVertical: 10 
+    },
+    pickerItem: { 
+      fontSize: 12 
+    },
+    usernameContainer: { 
+      padding: 10 
+    },
+    buttonText: { 
+      textAlign: 'center' 
+    },
+    profileImageContainer: { 
+      alignItems: 'center', 
+      justifyContent: 'center' 
+    },
+    image: { 
+      width: 200, 
+      height: 200, 
+      borderRadius: 100, 
+      top: 7, 
+      position: 'absolute' 
+    },
+    imagebutton: { 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      paddingVertical: 12, 
+      paddingHorizontal: 32, 
+      borderRadius: 4, 
+      elevation: 3 
+      // backgroundColor: theme.color 
+    }
+  };
+  
 
 export { HomePage, ProductDetailsPage, SettingsPage };
