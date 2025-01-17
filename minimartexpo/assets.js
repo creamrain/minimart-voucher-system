@@ -1,401 +1,296 @@
-import { StyleSheet, StatusBar, SafeAreaView, SectionList, View, Text, Button, TextInput, Modal, TouchableOpacity, Dimensions, Switch, Alert, Image, Pressable, ScrollView, ImageBackground, useColorScheme } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, Image, Button, Pressable, TextInput, Dimensions, SafeAreaView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 
-const styles = StyleSheet.create({
-    fullscreen: {
-        flex: 1,
-    },
-    imageBackground: {
-        flex: 1,
-    },
-    container: {
-        flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
-        backgroundColor: 'white',
-        paddingHorizontal: 16,
-        paddingBottom: 16,
-    },
-    picker: {
-        height: 40,
-        width: '95%',
-        marginVertical: 10,
-        alignSelf: 'center',
-        color: 'grey',
-        alignItems: 'center',
-        borderColor: 'grey',
-        borderWidth: 1, 
-        borderRadius: 5,
-        alignSelf: 'center',
-      },
-      pickerContainer: {
-        width: '95%',
-        alignSelf: 'center',
-        marginVertical: 10,
-      },
-      pickerItem: { 
-        fontSize: 12, 
-      },
-      bubble: {
-        padding: 20,
-        justifyContent: 'center',
-        fontSize: 16,
-        backgroundColor: 'rgba(252, 223, 202, 0.7)',
-        borderRadius: 20,
-        marginHorizontal: 16,
-        marginVertical: 8,
-    
-      },
-});
 
-// front end purposes
-const initialData = [
-    {
-        title: 'Welcome!',
-        subtitle: 'Muhammadiyah Welfare Home',
-        data: []
+const PearsImage = require('./assets/images/pear.jpg');
+const CookiesImage = require('./assets/images/cookie.jpg');
+
+// Home Page Component
+const HomePage = ({ navigation }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [products, setProducts] = useState([
+    { name: 'Pears', price: 10, image: PearsImage },
+    { name: 'Cookies', price: 7.99, image: CookiesImage },
+  ]);
+  const [newProduct, setNewProduct] = useState({ name: '', price: '', image: '' });
+
+  const addProduct = () => {
+    if (newProduct.name && newProduct.price && newProduct.image) {
+      setProducts([...products, newProduct]);
+      setNewProduct({ name: '', price: '', image: '' });
+      setShowModal(false);
     }
-];
+  };
 
-// home screen
-export const HomeScreen = ({ navigation }) => {
-    return (
-        <SafeAreaView style={styles.fullscreen}>
-            <ImageBackground source={theme.backgroundImage} style={styles.imageBackground}>
-                <SectionList
-                    sections={data}
-                    keyExtractor={(item, index) => item.title + index}
-                    renderItem={({ item }) => (
-                        <View style={[styles.item, { backgroundColor: item.color }]}>
-                            <Text style={[styles.title]}>{item.title}</Text>
-                            {item.details && (
-                                <View style={styles.detailsContainer}>
-                                    <Text style={[styles.detail, { color: theme.color }]}>Stock: {item.goal}</Text>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            setItemToDelete(item);
-                                            setDeleteModalVisible(true);
-                                        }}
-                                        style={styles.deleteButton}
-                                    >
-                                        <Text style={[styles.deleteButtonText]}> Delete </Text>
-                                    </TouchableOpacity>
+  const openProductDetails = (product) => {
+    navigation.navigate('ProductDetails', { product });
+  };
 
-                                    <TouchableOpacity
-                                        onPress={() => openEditModal(item)}
-                                        style={styles.editButton}
-                                    >
-                                        <Text style={[styles.deleteButtonText]}> Edit </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            )}
-                            <TouchableOpacity
-                                style={[styles.gotoDetailsButton]}
-                                onPress={() => navigation.navigate('Details', { item, additionalDetails: 'Some additional details here' })}
-                            >
-                                <Text style={[styles.gotoDetailsText]}>Go to {item.title} details</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                    renderSectionHeader={({ section }) => (
-                        <View style={[styles.headerContainer, { backgroundColor: section.color }]}>
-                            <Text style={[styles.headerTitle]}>{section.title}</Text>
-                            {section.subtitle && <Text style={[styles.headerSubtitle]}>{section.subtitle}</Text>}
-                        </View>
-                    )}
-                    renderSectionFooter={({ section: { title } }) => (
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity onPress={() => openModal(title)} style={styles.addButton}>
-                                <Text style={[styles.addButtonIcon, { color: theme.color }]}>+</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                />
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.welcomeText}>Welcome User!</Text>
 
-                {/* add modal */}
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={addModalVisible}
-                    onRequestClose={() => setAddModalVisible(!addModalVisible)}
-                >
-                    <View style={[styles.addButtonModalView, { backgroundColor: theme.background }]}>
-                        <Text style={[styles.modalText, { color: theme.color }]}>Enter new {currentSection.toLowerCase()} name</Text>
-                        <TextInput
-                            style={[styles.input]}
-                            placeholderTextColor={'grey'}
-                            placeholder={`Enter new ${currentSection.toLowerCase()} name`}
-                            value={newItemName}
-                            onChangeText={text => setNewItemName(text)}
-                        />
-                        <Text style={[styles.modalText, { color: theme.color }]}>What is your daily goal?</Text>
-                        <TextInput
-                            style={[styles.input]}
-                            placeholderTextColor={'grey'}
-                            placeholder="Enter daily goal"
-                            value={dailyGoal}
-                            keyboardType="numeric"
-                            onChangeText={text => setDailyGoal(text)}
+      <Button
+        title="Check Vouchers"
+        color="#FF6F00"
+        onPress={() => alert('No Vouchers Found')}
+      />
+      <Text> </Text>
+      <Button
+        title="Check Transactional History"
+        color="#FF6F00"
+        onPress={() => alert('No transactional history found. Start shopping today!')}
+      />
 
-                        />
-                        <Text style={[styles.modalText, { color: theme.color }]}>Select item color:</Text>
-                        <ColorPicker
-                            selectedColor={selectedColor}
-                            onColorChange={(color) => setSelectedColor(color)}
-                        />
-                        <TouchableOpacity style={styles.button} onPress={addNewItem}>
-                            <Text style={[styles.buttonText, { color: theme.color }]}>Add Item</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setAddModalVisible(!addModalVisible)}
-                        >
-                            <Text style={[styles.buttonText, { color: theme.color }]}>Cancel</Text>
-                        </TouchableOpacity>
-                    </View>
-                </Modal>
+      <Text style={styles.shoppingTitle}>Shopping</Text>
 
-                {/* delete modal */}
-                <Modal
-                    transparent={true}
-                    animationType="slide"
-                    visible={deleteModalVisible}
-                    onRequestClose={() => setDeleteModalVisible(false)}
-                >
-                    <View style={[styles.modalContainer]}>
-                        <View style={[styles.modalView, { backgroundColor: theme.background }]}>
-                            <Text style={{ color: theme.color }}>Are you sure you want to delete this item?</Text>
-                            <View style={styles.modalButtons}>
-                                <Button title="Cancel" onPress={() => setDeleteModalVisible(false)} />
-                                <Button title="Delete" onPress={handleDelete} />
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
+      <View style={styles.productList}>
+        {products.map((product, index) => (
+          <Pressable key={index} onPress={() => openProductDetails(product)}>
+            <View style={styles.productCard}>
+              <Image source={product.image} style={styles.productImage} />
+              <Text style={styles.productName}>{product.name}</Text>
+              <Text style={styles.productPrice}>${product.price}</Text>
+            </View>
+          </Pressable>
+        ))}
+      </View>
 
-                {/* edit modal */}
-                <Modal
-                    transparent={true}
-                    animationType="slide"
-                    visible={editModalVisible}
-                    onRequestClose={() => setEditModalVisible(false)}
-                >
-                    <View style={styles.modalContainer}>
-                        <View style={[styles.modalView, { backgroundColor: theme.background }]}>
-                            <Text style={{ color: theme.color }}>EDIT</Text>
-                            <TextInput
-                                style={[styles.input, { color: theme.color }]}
-                                placeholder="Name"
-                                value={editedData.title}
-                                placeholderTextColor={'grey'}
-                                onChangeText={(text) => setEditedData({ ...editedData, title: text })}
-                            />
-                            <TextInput
-                                style={[styles.input, { color: theme.color }]}
-                                placeholder="Goal"
-                                value={editedData.goal.toString()}
-                                placeholderTextColor={'grey'}
-                                onChangeText={(text) => setEditedData({ ...editedData, goal: isNaN(parseInt(text)) ? '' : parseInt(text) })}
-                            />
-                            <View style={styles.modalButtons}>
-                                <Button title="Cancel" onPress={() => setEditModalVisible(false)} />
-                                <Button title="Confirm edit" onPress={handleEdit} />
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
-            </ImageBackground>
-        </SafeAreaView>
-    );
+      <Button title="+" onPress={() => setShowModal(true)} color="#FF6F00" />
+
+      {showModal && (
+        <View style={styles.modal}>
+          <Text style={styles.modalTitle}>Add New Product</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Product Name"
+            value={newProduct.name}
+            onChangeText={(text) => setNewProduct({ ...newProduct, name: text })}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Product Price"
+            value={newProduct.price}
+            onChangeText={(text) => setNewProduct({ ...newProduct, price: text })}
+            keyboardType="numeric"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Product Image URL"
+            value={newProduct.image}
+            onChangeText={(text) => setNewProduct({ ...newProduct, image: text })}
+          />
+          <Button title="Add Product" onPress={addProduct} color="#003366" />
+          <Button title="Close" onPress={() => setShowModal(false)} color="#999" />
+        </View>
+      )}
+    </ScrollView>
+  );
 };
 
-// settings screen
-export const SettingsScreen = () => {
+// Product Details Page Component
+const ProductDetailsPage = ({ route }) => {
+  const { product } = route.params;
 
-    const theme = useContext(themeContext)
-    const [darkMode, setDarkMode] = useState(false)
+  return (
+    <View style={styles.detailsContainer}>
+      <Text style={styles.productTitle}>{product.name}</Text>
+      <Image source={product.image} style={styles.productImage2} />
+      <Text style={styles.productPrice}>Price: ${product.price}</Text>
+      <Text style={styles.productPrice}>Quantity: 5</Text>
+      <Button
+        title="Out of Stock?"
+        color="#FF6F00"
+        onPress={() => alert('Request receieved, check your inbox for future stock updates.')}
+      />
+    </View>
+  );
+};
 
+// Settings Page Component
+const SettingsPage = () => {
     // PROFILE IMAGE
     const [image, setImage] = useState(null);
-
+  
     const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [1, 1],
-            quality: 1,
-        });
-
-        console.log(result);
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-        }
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+      }
     };
-
+  
     // USERNAME
-    const usernameInputRef = useRef(null);
     const [username, setUsername] = useState('');
-
+  
     // AGE
-    const ageInputRef = useRef(null);
     const [age, setAge] = useState('');
-
-    // ADMIN
-    const [admin, setAdmin] = useState('');
-
-    // DARKMODE   
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+  
+    // ROLE
+    const [role, setRole] = useState('');
+  
     // FEEDBACK
-    const feedbackInputRef = useRef(null);
     const [feedback, setFeedback] = useState('');
-
+  
     return (
         <SafeAreaView style={styles.fullscreen}>
-            <ImageBackground source={theme.backgroundImage} style={styles.imageBackground}>
-                {/* Profile Image */}
-                <View style={styles.profileImageContainer}>
-                    {image && <Image source={{ uri: image }} style={styles.image} />}
-                    <Pressable style={styles.imagebutton} onPress={pickImage}>
-                        <Text style={[styles.buttonText, { color: theme.color }]}>Change your Profile Picture</Text>
-                    </Pressable>
-                </View>
-
-                {/* Username */}
-                <View style={styles.usernameContainer}>
-                    <Pressable onPress={() => usernameInputRef?.current?.focus()}>
-                        <Text style={{ color: theme.color }}> Username:</Text>
-                        <TextInput
-                            ref={usernameInputRef}
-                            style={styles.input}
-                            onChangeText={(event) => setUsername(event)}
-                            value={username}
-                            placeholder='Edit your username here'
-                            placeholderTextColor='grey'
-                        />
-                    </Pressable>
-                </View>
-
-                {/* Age */}
-                <View style={styles.usernameContainer}>
-                    <Pressable onPress={() => ageInputRef?.current?.focus()}>
-                        <Text style={{ color: theme.color }}> Age:</Text>
-                        <TextInput
-                            ref={ageInputRef}
-                            style={styles.input}
-                            onChangeText={(event) => setAge(event)}
-                            value={age}
-                            keyboardType={'numeric'}
-                            placeholder='Edit your age here'
-                            placeholderTextColor='grey'
-                        />
-                    </Pressable>
-                </View>
-
-                {/*  Admin Picker */}
-                <View style={styles.usernameContainer}>
-                    <Text style={{ color: theme.color }}> Role:</Text>
-                    <Picker
-                        selectedValue={admin}
-                        onValueChange={(itemValue) => setSchool(itemValue)}
-                        style={[styles.picker2, { borderColor: 'grey', borderWidth: 1 }, { backgroundColor: theme.background }]}
-                    >
-                        <Picker.Item label="Select your role" value="" style={[styles.pickerItem, { backgroundColor: theme.background }]} />
-                        <Picker.Item label="Resident" value="resident" style={[styles.pickerItem, { backgroundColor: theme.background }]} />
-                        <Picker.Item label="Admin" value="admin" style={[styles.pickerItem, { backgroundColor: theme.background }]} />
-                        <Picker.Item label="Owner" value="owner" style={[styles.pickerItem, { backgroundColor: theme.background }]} />
-                        <Picker.Item label="Others" value="others" style={[styles.pickerItem, { backgroundColor: theme.background }]} />
-                    </Picker>
-                </View>
-
-
-                {/* Dark Mode */}
-                <View style={styles.switchContainer}>
-                    <Text style={{ color: theme.color }}> Dark Mode</Text>
-                    <Switch
-                        trackColor={{ false: "#767577", true: "#81b0ff" }}
-                        thumbColor={darkMode ? "#f5dd4b" : "#f4f3f4"}
-                        ios_backgroundColor="#3e3e3e"
-                        value={darkMode}
-                        onValueChange={(value) => {
-                            setDarkMode(value);
-                            EventRegister.emit('ChangeTheme', value)
-                        }}
-                    />
-                </View>
-
-                {/* Send Feedback (need backend to 'send' feedback to admins) */}
-                <View style={styles.usernameContainer}>
-                    <Pressable onPress={() => feedbackInputRef?.current?.focus()}>
-                        <Text style={{ color: theme.color }}> Report an issue:</Text>
-                        <TextInput
-                            ref={feedbackInputRef}
-                            style={styles.input}
-                            onChangeText={(event) => setFeedback(event)}
-                            value={feedback}
-                            placeholder='Bug'
-                            placeholderTextColor='grey'
-                        />
-                    </Pressable>
-                </View>
-
-                {/* Log out */}
-                <Pressable style={styles.imagebutton}>
-                    <Text style={styles.buttonText}>Log out</Text>
+            {/* Profile Image */}
+            <View style={styles.profileImageContainer}>
+                {image && <Image source={{ uri: image }} style={styles.image} />}
+                <Pressable style={styles.imagebutton} onPress={pickImage}>
+                    <Text style={[styles.buttonText]}>Change your Profile Picture</Text>
                 </Pressable>
+            </View>
 
-            </ImageBackground>
-        </SafeAreaView>
+            {/* Username */}
+            <View style={styles.usernameContainer}>
+                <Pressable>
+                    <Text> Username:</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(event) => setUsername(event)}
+                        value={username}
+                        placeholder='Edit your username here'
+                        placeholderTextColor='grey'
+                    />
+                </Pressable>
+            </View>
+
+            {/* Age */}
+            <View style={styles.usernameContainer}>
+                <Pressable>
+                    <Text> Age:</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(event) => setAge(event)}
+                        value={age}
+                        keyboardType={'numeric'}
+                        placeholder='Edit your age here'
+                        placeholderTextColor='grey'
+                    />
+                </Pressable>
+            </View>
+
+            {/*  Admin Picker */}
+            <View style={styles.usernameContainer}>
+                <Text> Role:</Text>
+                <Picker
+                    selectedValue={role}
+                    onValueChange={(itemValue) => setRole(itemValue)}
+                    style={[styles.picker, { borderColor: 'grey', borderWidth: 1 }]}
+                >
+                    <Picker.Item label="Select your role" value="" style={[styles.pickerItem]} />
+                    <Picker.Item label="Resident" value="resident" style={[styles.pickerItem]} />
+                    <Picker.Item label="Admin" value="admin" style={[styles.pickerItem]} />
+                    <Picker.Item label="Owner" value="owner" style={[styles.pickerItem]} />
+                    <Picker.Item label="Others" value="others" style={[styles.pickerItem]} />
+                </Picker>
+            </View>
+
+            {/* Send Feedback (need backend to 'send' feedback to admins) */}
+            <View style={styles.usernameContainer}>
+                <Pressable>
+                    <Text> Report an issue:</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(event) => setFeedback(event)}
+                        value={feedback}
+                        placeholder='Bug'
+                        placeholderTextColor='grey'
+                    />
+                </Pressable>
+            </View>
+
+            {/* Log out */}
+            <Pressable style={styles.imagebutton}>
+                <Text style={styles.buttonText}>Log out</Text>
+            </Pressable>
+    </SafeAreaView>
     );
+  };
+
+
+const { width } = Dimensions.get('window');
+
+const styles = {
+  container: { flex: 1, padding: 16 },
+  welcomeText: { fontSize: 24, marginBottom: 16 },
+  shoppingTitle: { fontSize: 18, marginVertical: 16 },
+  productList: { flexDirection: 'row', flexWrap: 'wrap' },
+  productCard: { width: 200, padding: 10, margin: 10, backgroundColor: '#f5f5f5' },
+  productImage: { width: 160, height: 100 },
+  productName: { fontSize: 16, marginTop: 8 },
+  productPrice: { fontSize: 14, color: '#888' },
+  modal: { padding: 20, backgroundColor: 'white', marginTop: 20 },
+  modalTitle: { fontSize: 18, marginBottom: 10 },
+  input: { height: 40, borderColor: '#ccc', borderWidth: 1, marginBottom: 10, paddingHorizontal: 8 },
+  productTitle: { fontSize: 24, marginBottom: 16 },
+  settingsText: { fontSize: 20, marginTop: 20 },
+  detailsContainer: { padding: 10, alignItems: 'center' },
+  productTitle: { fontSize: 24, marginBottom: 16 },  
+  productImage2: { width: width*0.7, height: 300, marginBottom: 16 },
+  productPrice: { fontSize: 18, marginBottom: 16 },
+  picker: { 
+    height: 40,
+    width: '100%',
+    marginVertical: 10,
+    alignSelf: 'center',
+    color: 'grey',
+    alignItems: 'center',
+    borderColor: 'grey',
+    borderWidth: 1, 
+    borderRadius: 5,
+    alignSelf: 'center',
+  },
+  pickerContainer: {
+    width: '100%',
+    alignSelf: 'center',
+    marginVertical: 10,
+  },
+  pickerItem: {
+    fontSize: 12, 
+  },
+  usernameContainer: {
+    padding: 10,
+  },
+  pickerContainer: {
+    width: '95%',
+    alignSelf: 'center',
+    marginVertical: 10,
+  },
+  buttonText: {
+     textAlign: 'center',
+   },
+   profileImageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    top: 7,
+    postiion: 'absolute',
+  },
+  imagebutton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+  //  backgroundColor: theme.color,
+  },
+
 };
 
-// colours
-const colors = {
-    background: '#f8f8f8', //light grey
-    tab: '#0a3d62', //blue
-    accent: '#ffffff', //black
-    primary: '#000000' //white
-};
-
-export const Stack = createNativeStackNavigator();
-
-export const Tab = createBottomTabNavigator();
-
-// tab navigation
-export function TabNavigator() {
-    return (
-        <Tab.Navigator
-            sceneContainerStyle={{ backgroundColor: colors.background }}
-            screenOptions={{
-                tabBarShowLabel: false,
-                tabBarActiveBackgroundColor: colors.tab,
-                tabBarInactiveBackgroundColor: colors.tab,
-                tabBarActiveTintColor: colors.accent,
-                tabBarInactiveTintColor: colors.primary,
-            }}
-        >
-            <Tab.Screen
-                name="Homescreen"
-                component={HomeScreen}
-                options={{
-                    tabBarIcon: ({ size, color }) => (
-                        <AntDesign name="shoppingcart" size={size} color={color} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="Settings"
-                component={SettingsScreen}
-                options={{
-                    tabBarIcon: ({ size, color }) => (
-                        <AntDesign name="setting" size={size} color={color} />
-                    ),
-                }}
-            />
-        </Tab.Navigator>
-    );
-}
+export { HomePage, ProductDetailsPage, SettingsPage };
